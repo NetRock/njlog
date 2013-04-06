@@ -26,7 +26,5 @@ LogList.prototype = {
       }
     });
     res.redirect('/');
-  },
-  
-  
+  }
 }
