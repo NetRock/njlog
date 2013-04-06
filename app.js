@@ -4,7 +4,7 @@ var express = require('express'),
     http = require('http'),
     path = require('path');
 var LogList = require('./routes/loglist');
-var logList = new LogList(process.env.CUSTOMCONNSTR_MONGOLAB_URI);
+var logList = new LogList(process.env.CUSTOMCONNSTR_MONGOLAB_URL);
 
 
 var app = express();
