@@ -1,0 +1,32 @@
+h1= title
+  table(border="1")
+    tr
+      td Name
+      td Application
+      td Category
+      td Date
+    each log in logs
+      tr
+        td #{log.name}
+        td #{log.application
+        td #{log.category}
+        - var day   = log.loggedDate.getDate();
+        - var month = log.loggedDate.getMonth() + 1;
+        - var year  = log.loggedDate.getFullYear();
+        td #{month + "/" + day + "/" + year}
+hr
+form(action="/addtask", method="post")
+  table(border="1") 
+    tr
+      td Item Name: 
+      td 
+        input(name="item[name]", type="textbox")
+    tr
+      td Item Application:
+      td
+        input(name="item[application", type="textbox")
+    tr
+      td Item Category: 
+      td 
+        input(name="item[category]", type="textbox")
+  input(type="submit", value="Add item")
