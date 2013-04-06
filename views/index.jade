@@ -5,15 +5,7 @@ h1= title
       td Application
       td Category
       td Date
-    each log in logs
-      tr
-        td #{log.name}
-        td #{log.application
-        td #{log.category}
-        - var day   = log.loggedDate.getDate();
-        - var month = log.loggedDate.getMonth() + 1;
-        - var year  = log.loggedDate.getFullYear();
-        td #{month + "/" + day + "/" + year}
+
 hr
 form(action="/addlog", method="post")
   table(border="1") 

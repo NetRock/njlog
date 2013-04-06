@@ -3,8 +3,8 @@ var express = require('express'),
     user = require('./routes/user'),
     http = require('http'),
     path = require('path');
-var LogList = require('./routes/loglist');
-var logList = new LogList(process.env.CUSTOMCONNSTR_MONGOLAB_URL);
+//var LogList = require('./routes/loglist');
+//var logList = new LogList(process.env.CUSTOMCONNSTR_MONGOLAB_URL);
 
 
 var app = express();
@@ -27,8 +27,8 @@ app.configure('development', function(){
 });
 
 
-app.get('/', logList.showLogs.bind(logList));
-app.post('/addlog', logList.addLog.bind(logList));
+//app.get('/', logList.showLogs.bind(logList));
+//app.post('/addlog', logList.addLog.bind(logList));
 
 
 http.createServer(app).listen(app.get('port'), function(){
