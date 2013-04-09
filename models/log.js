@@ -3,9 +3,9 @@ var mongoose = require('mongoose'),
 
 var LogSchema = new Schema({
   name: String,
-  application: String,
+  appId: Number,
   category: String,
   loggedDate :  { type:Date, default: Date.now }
  });
  
- module.exports = mongoose.model('LogModel', LogSchema)
+ module.exports = mongoose.model('LogModel', LogSchema);

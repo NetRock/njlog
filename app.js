@@ -1,1 +1,45 @@
-,/**, * Module dependencies., */,,var express = require('express'),  , routes = require('./routes'),  , user = require('./routes/user'),  , http = require('http'),  , path = require('path');,,var app = express();,,// all environments,app.set('port', process.env.PORT || 3000);,app.set('views', __dirname + '/views');,app.set('view engine', 'jade');,app.use(express.favicon());,app.use(express.logger('dev'));,app.use(express.bodyParser());,app.use(express.methodOverride());,app.use(app.router);,app.use(express.static(path.join(__dirname, 'public')));,,// development only,if ('development' == app.get('env')) {,  app.use(express.errorHandler());,},,app.get('/', routes.index);,app.get('/users', user.list);,,http.createServer(app).listen(app.get('port'), function(){,  console.log('Express server listening on port ' + app.get('port'));,});,
+var http = require('http')
+var express = require('express');
+var mongoose = require('mongoose');
+
+var app = express();
+mongoose.connect('mongodb://MongoLab-a4:KX_CVZRYhr_OPO__Uo2A4kkNUhjttC2lQT6bGNQ59kw-@ds041157.mongolab.com:41157/MongoLab-a4');
+
+
+var LogList = require('./models/loglist');
+var logList = new LogList();
+
+var AppList = require('./models/applist');
+var appList = new AppList();
+
+var port = process.env.PORT || 1337;
+
+app.configure(function(){
+	app.set('port', port);
+	app.use(express.bodyParser());
+	app.use(app.router);
+});
+
+app.get('/application', function(req, res){
+
+});
+
+app.post('/application', function(req, res){
+
+});
+
+app.delete('/application/:id', function(req, res){
+
+});
+
+app.get('/', function(req, res){
+	logList.showLogs(req, res);
+});
+
+app.post('/addLog', function (req, res) {
+	logList.addLog(req, res);
+});
+
+app.listen(port, function(){
+  console.log("Express server listening on port " + port);
+});
