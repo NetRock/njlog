@@ -1,5 +1,4 @@
-var mongoose = require('mongoose'),
-  log = require('./log.js');
+var Log = require('./log.js');
   
 module.exports = LogList;
 
@@ -7,18 +6,21 @@ function LogList(){
 }
 
 LogList.prototype = {
-  showLogs: function(req, res){
-    log.find(function foundLogs(err, items){
-      res.json({title: 'All Log List ', tasks: items});
+  getLogs: function(req, res){
+    console.log(req.params.appId);
+    Log.find({appId: req.params.appId}, function(err, items){
+      res.json(items);
     });
   },
   
   addLog: function(req, res){
     var item = req.body;
-    var newLog = new log();
+    var newLog = new Log();
     newLog.name = item.name;
-    newLog.application = item.application;
+    newLog.appId = item.appId;
     newLog.category = item.category;
+    newLog.message = item.message;
+    console.log(newLog);
     newLog.save(function saveLog(err){
       if(err){
         throw err;
@@ -26,5 +28,13 @@ LogList.prototype = {
     });
 
     res.send(200);
+  },
+
+  deleteLogs: function(req, res){
+    Log.remove({appId: req.params.id}, function(err){
+      if(err){
+        throw err;
+      }
+    });
   }
 }

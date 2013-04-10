@@ -7,4 +7,4 @@ var ApplicationSchema = new Schema({
 	version: String
 });
 
-module.export = mongoose.model("Application", ApplicationSchema);
+module.exports = mongoose.model("AppModel", ApplicationSchema);
