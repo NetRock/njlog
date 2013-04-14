@@ -2,8 +2,8 @@ var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
 var LogSchema = new Schema({
-  name: String,
-  appId: String,
+  title: String,
+  appId: Schema.Types.ObjectId,
   category: String,
   message: String,
   loggedDate :  { type:Date, default: Date.now }

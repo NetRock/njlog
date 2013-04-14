@@ -15,10 +15,14 @@ AppList.prototype = {
 	getAppId: function(req, res){
 		Application.find({domain: req.params.domain, name: req.params.name, version: req.params.version},
 			function(err, items){
-				if(items.count == 0)
+				if(err){
+					throw err;
+				}
+				
+				if(items.length == 0)
 				{
 					var newApp = this.createApp(req.params);
-					res.send(200, {appId: newApp._id});
+					res.send(200, newApp._id);
 				}
 				else
 				{
