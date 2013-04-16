@@ -7,6 +7,7 @@ function AppList(){
 
 AppList.prototype = {
 	getApps: function(req, res){
+		console.log("Enter");
 		Application.find(function(err, items){
 			res.json(items);
 		});
