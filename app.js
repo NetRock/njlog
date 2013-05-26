@@ -11,7 +11,7 @@ var options = {
 };
 
 //mongoose.connect('mongodb://MongoLab-a4:KX_CVZRYhr_OPO__Uo2A4kkNUhjttC2lQT6bGNQ59kw-@ds041157.mongolab.com:41157/MongoLab-a4', options);
-mongoose.connect(process.env.MONGOLAB_URI);
+mongoose.connect(process.env.CONNSTR_MONGOLAB_URL);
 
 var Application = require('./models/application.js');
 
