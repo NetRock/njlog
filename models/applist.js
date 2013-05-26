@@ -7,13 +7,13 @@ function AppList(){
 
 AppList.prototype = {
 	getApps: function(req, res){
-		console.log("Enter");
 		Application.find(function(err, items){
 			res.json(items);
 		});
 	},
 
 	getAppId: function(req, res){
+		var self = this;
 		Application.find({domain: req.params.domain, name: req.params.name, version: req.params.version},
 			function(err, items){
 				if(err){
@@ -22,8 +22,7 @@ AppList.prototype = {
 				
 				if(items.length == 0)
 				{
-					var newApp = this.createApp(req.params);
-					res.send(200, newApp._id);
+					self.createApp(req.params, res);
 				}
 				else
 				{
@@ -33,7 +32,7 @@ AppList.prototype = {
 		);
 	},
 
-	createApp: function(app){
+	createApp: function(app, res){
 		var newApp = new Application();
 		newApp.domain = app.domain;
 		newApp.name = app.name;
@@ -42,15 +41,15 @@ AppList.prototype = {
 			if(err){
 				throw err;
 			}
-		return newApp;
+			else{
+				res.send(200, {appId: newApp._id});
+			}
 		});
 	},
 
 	registerApp: function(req, res){
 		var app = req.body;
-		var newApp = this.createApp(app);
-
-		res.send(200, {appId: newApp._id});
+		this.createApp(app, res);
 	},
 
 	deleteApp: function(req, res){

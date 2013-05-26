@@ -7,6 +7,6 @@ namespace LoggingClient
 {
     public enum LogCategory
     {
-        Warining, Error, Information
+        Warning, Error, Information
     }
 }

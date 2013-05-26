@@ -1,1 +1,87 @@
-body {,  padding: 50px;,  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;,},,a {,  color: #00B7FF;,}
+body {
+	padding: 20px;
+	width: 1200px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.appPane{
+	border: solid 1px grey;
+	float: left;
+	padding: 5px;
+	height: 600px;
+	width: 300px;
+	overflow: auto;
+}
+
+.appPane table{
+	border-collapse:collapse;
+	width: 100%
+}
+
+.appPane th{
+	text-align: left;
+}
+
+.appPane td{
+	padding: 5px;
+}
+
+.appPane .sel{
+	background-color: lightblue;
+}
+
+.appRow, .logRow{
+	cursor: pointer;
+}
+
+.logPane{
+	border: solid 1px grey;
+	width: 800px;
+	height: 600px;
+	float: left;
+	margin: 0 20px;
+	padding: 5px 10px;
+}
+
+.logListView{
+	height:400px;
+	overflow: auto;
+}
+	.logListView table{
+		width: 100%;
+		border-collapse:collapse;
+	}
+
+	.logListView .bg {
+		background-color: lightgray;
+	}
+
+	.logListView .sel {
+		background-color: lightblue;
+	}
+
+	.logListView td{
+		padding: 4px;
+	}
+
+	.logListView th{
+		text-align: left;
+	}
+
+	.logListView th.title{
+		width: 480px;
+	}
+
+#logMsgPane{
+	border-top: solid 1px grey;
+	padding: 5px;
+	margin: 10px 0;
+	text-wrap: normal;
+	word-wrap: break-word;
+	height: 200px;
+	overflow: auto;
+}
