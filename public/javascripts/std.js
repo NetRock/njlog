@@ -34,10 +34,7 @@ function Log(title, category, message, loggedDate){
 
 $(document).ready(function () {
 	$(".appRow").click(function(evt){
-		if(logViewModel.lastRow == this){
-			return;
-		}
-		else if(logViewModel.lastRow != null){
+		if(logViewModel.lastRow != null){
 			$(logViewModel.lastRow).removeClass("sel");
 		}
 
@@ -46,30 +43,47 @@ $(document).ready(function () {
 		logViewModel.lastRow = this;
 
 		logViewModel.curAppLogs.removeAll();
+		var category = $("#category").val();
+		var url = "/log/" + this.id;
+		if(category != "All"){
+			url += "/" + category;
+		}
+
 		if(logViewModel.appLogDict[appId] == null){
-			$.ajax({
-				type: "GET",
-				cache: false,
-				url: "/log/" + this.id,
-				success: function(result, status){
-					logViewModel.appLogDict[appId] = result;
-					for(var i = 0; i < result.length; i++){
-						logViewModel.curAppLogs.push(new Log(result[i].title, 
-							result[i].category, result[i].message, result[i].loggedDate));
-					}
-				}
-			}).fail(function(err){
-				alert(err.responseText);
-			});
+			queryLog(url, appId);
 		}
 		else{
-			var result = logViewModel.appLogDict[appId];
-			for(var i = 0; i < result.length; i++){
-				logViewModel.curAppLogs.push(new Log(result[i].title, 
-					result[i].category, result[i].message, result[i].loggedDate));
-			}
+			fillViewModel(logViewModel.appLogDict[appId]);
 		}
 	});
+
+	$("#category").change(function(){
+		logViewModel.appLogDict = [];
+	});
+
+	function queryLog(url, appId){
+		$('#loadingImg').show();
+		$.ajax({
+			type: "GET",
+			cache: false,
+			url: url,
+			success: function(result, status){
+				logViewModel.appLogDict[appId] = result;
+				fillViewModel(result);
+				$('#loadingImg').hide();
+			}
+		}).fail(function(err){
+			$('#loadingImg').hide();
+			alert(err.responseText);
+		});
+	}
+
+	function fillViewModel(result){
+		for(var i = 0; i < result.length; i++){
+			logViewModel.curAppLogs.push(new Log(result[i].title, 
+				result[i].category, result[i].message, result[i].loggedDate));
+		}		
+	}
 
 	ko.applyBindings(logViewModel);
 });

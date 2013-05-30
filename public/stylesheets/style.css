@@ -85,3 +85,15 @@ a {
 	height: 200px;
 	overflow: auto;
 }
+
+.queryOption{
+	margin: 10px 5px;
+	padding-bottom: 10px;
+	border-bottom:  solid 1px grey;
+}
+
+#loadingImg{
+	vertical-align: middle;
+	margin-left: 120px;
+	display: none;
+}

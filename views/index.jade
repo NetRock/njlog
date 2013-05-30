@@ -5,6 +5,13 @@ html
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body
 		div.appPane
+			div.queryOption
+				label Category: 
+				select(id='category')
+					option All
+					option Error
+					option Warning
+				img(src='/images/loading.gif',id='loadingImg')
 			table
 				thead
 					tr

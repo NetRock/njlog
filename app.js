@@ -10,8 +10,8 @@ var options = {
 	server: { poolSize: 5, socketOptions: { keepAlive: 1 } },
 };
 
-//mongoose.connect('mongodb://MongoLab-a4:KX_CVZRYhr_OPO__Uo2A4kkNUhjttC2lQT6bGNQ59kw-@ds041157.mongolab.com:41157/MongoLab-a4', options);
-mongoose.connect(process.env.CUSTOMCONNSTR_MONGOLAB_URL);
+mongoose.connect('mongodb://MongoLab-a4:KX_CVZRYhr_OPO__Uo2A4kkNUhjttC2lQT6bGNQ59kw-@ds041157.mongolab.com:41157/MongoLab-a4', options);
+//mongoose.connect(process.env.CUSTOMCONNSTR_MONGOLAB_URL, options);
 
 var Application = require('./models/application.js');
 
@@ -52,7 +52,7 @@ app.delete('/application/:id', function(req, res){
     res.send(200);
 });
 
-app.get('/log/:appId', function(req, res){
+app.get('/log/:appId/:category?', function(req, res){
 	logList.getLogs(req, res);
 });
 

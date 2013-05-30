@@ -7,9 +7,17 @@ function LogList(){
 
 LogList.prototype = {
   getLogs: function(req, res){
-    Log.find({appId: req.params.appId}, function(err, items){
+//    Log.find({appId: req.params.appId}, function(err, items){
+//      res.json(items);
+//    });
+    var query = Log.find({appId: req.params.appId});
+    if(req.params.category != undefined)
+    {
+      query = query.where('category').equals(req.params.category);
+    }
+    query.sort('-loggedDate').limit(100).exec(function(err, items){
       res.json(items);
-    });
+    })
   },
   
   addLog: function(req, res){
