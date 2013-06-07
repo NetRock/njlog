@@ -10,8 +10,7 @@ var options = {
 	server: { poolSize: 5, socketOptions: { keepAlive: 1 } },
 };
 
-mongoose.connect('mongodb://MongoLab-a4:KX_CVZRYhr_OPO__Uo2A4kkNUhjttC2lQT6bGNQ59kw-@ds041157.mongolab.com:41157/MongoLab-a4', options);
-//mongoose.connect(process.env.CUSTOMCONNSTR_MONGOLAB_URL, options);
+mongoose.connect(process.env.CUSTOMCONNSTR_MONGOLAB_URL, options);
 
 var Application = require('./models/application.js');
 
