@@ -26,7 +26,7 @@ AppList.prototype = {
 				}
 				else
 				{
-					res.send(200, items[0]._id);
+					res.send(200, {appId: items[0]._id});
 				}
 			}
 		);

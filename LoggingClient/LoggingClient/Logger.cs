@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,7 +54,10 @@ namespace LoggingClient
             if (!logDict.TryGetValue(Thread.CurrentThread.ManagedThreadId, out logList))
             {
                 logList = new List<LogItem>();
-                logDict.Add(Thread.CurrentThread.ManagedThreadId, logList);
+                lock (logDict)
+                {
+                    logDict.Add(Thread.CurrentThread.ManagedThreadId, logList);
+                }
             }
 
             logList.Add(new LogItem
@@ -66,7 +70,7 @@ namespace LoggingClient
                         });
         }
 
-        private static async void SendIfAny()
+        private static void SendIfAny()
         {
             var keys = logDict.Keys.ToArray();
 
@@ -95,6 +99,11 @@ namespace LoggingClient
             }
         }
 
+        private class LogApp
+        {
+            public string appId { get; set; }
+        }
+
         private static async Task<string> GetApplicationId()
         {
             if (domain == null || appName == null || version == null)
@@ -104,8 +113,9 @@ namespace LoggingClient
 
             using (var client = GetWebApiClient())
             {
-                var id = await client.GetStringAsync(string.Format("application/{0}/{1}/{2}", domain, appName, version));
-                return id.Replace("\"", string.Empty);
+                var response = await client.GetAsync(string.Format("application/{0}/{1}/{2}", domain, appName, version));
+                var app = await response.Content.ReadAsAsync<LogApp>();
+                return app.appId;
             }
         }
 
@@ -116,7 +126,15 @@ namespace LoggingClient
                 throw new ArgumentException("Empty LoggingService Address");
             }
 
-            var client = new HttpClient { BaseAddress = new Uri(loggingServiceAddress) };
+            var handler = new HttpClientHandler
+            {
+                UseDefaultCredentials = true,
+                PreAuthenticate = true,
+                ClientCertificateOptions = ClientCertificateOption.Automatic
+            };
+
+            var client = new HttpClient(handler) { BaseAddress = new Uri(loggingServiceAddress) };
+            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
             return client;
         }

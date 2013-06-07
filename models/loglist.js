@@ -7,9 +7,6 @@ function LogList(){
 
 LogList.prototype = {
   getLogs: function(req, res){
-//    Log.find({appId: req.params.appId}, function(err, items){
-//      res.json(items);
-//    });
     var query = Log.find({appId: req.params.appId});
     if(req.params.category != undefined)
     {

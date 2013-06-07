@@ -43,8 +43,9 @@ $(document).ready(function () {
 		logViewModel.lastRow = this;
 
 		logViewModel.curAppLogs.removeAll();
-		var category = $("#category").val();
+
 		var url = "/log/" + this.id;
+		var category = $("#category").val();
 		if(category != "All"){
 			url += "/" + category;
 		}
