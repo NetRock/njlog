@@ -5,8 +5,11 @@ using System.Text;
 
 namespace LoggingClient
 {
-    public enum LogCategory
+    internal static class LogCategory
     {
-        Warning, Error, Information
+        public const string Warning = "Warning";
+        public const string Error = "Error";
+        public const string Information = "Information";
+        public const string Done = "Done";
     }
 }

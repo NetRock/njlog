@@ -2,43 +2,49 @@
 html
 	head
 		title=title
+		link(rel='stylesheet', href='/stylesheets/bootstrap.min.css')
 		link(rel='stylesheet', href='/stylesheets/style.css')
 	body
-		div.appPane
-			div.queryOption
-				label Category: 
-				select(id='category')
-					option All
-					option Error
-					option Warning
-				img(src='/images/loading.gif',id='loadingImg')
-			table
-				thead
-					tr
-						th Domain
-						th App Name
-						th Version
-				tbody
-					- for(var i=0; i < apps.length; i++) {
-					tr.appRow(id=apps[i]._id)
-						td #{apps[i].domain}
-						td #{apps[i].name}
-						td #{apps[i].version}
-					- }
-		div.logPane
-			div.logListView
-				table
-					thead
-						tr
-							th.title Title
-							th Category
-							th LoggedDate
-					tbody(data-bind='foreach: curAppLogs')
-						tr.logRow(data-bind="click: setMessage, css: {'bg': needCss($index)}")
-							td(data-bind='text: title')
-							td(data-bind='text: category')
-							td(data-bind='text: loggedDate')
-			div#logMsgPane
+		div.container-fluid
+			header
+				h3 Logging Viewer
+			div.row-fluid
+				div.span4
+					div.appPane
+						label Category: 
+						select(id='category')
+							option All
+							option Error
+							option Warning
+						img(src='/images/loading.gif',id='loadingImg')
+						table(class='table table-hover')
+							thead
+								tr
+									th Domain
+									th App Name
+									th Version
+							tbody
+								- for(var i=0; i < apps.length; i++) {
+								tr.appRow(id=apps[i]._id)
+									td #{apps[i].domain}
+									td #{apps[i].name}
+									td #{apps[i].version}
+								- }
+				div.span8
+					div.logPane
+						div.logListView
+							table(class='table table-hover')
+								thead
+									tr
+										th.title Title
+										th Category
+										th LoggedDate
+								tbody(data-bind='foreach: curAppLogs')
+									tr.logRow(data-bind="click: setMessage")
+										td(data-bind='text: title')
+										td(data-bind='text: category')
+										td(data-bind='text: loggedDate')
+						div#logMsgPane
 
 		script(type="text/javascript", src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.9.0.min.js")
 		script(type="text/javascript", src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js")

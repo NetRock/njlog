@@ -47,23 +47,41 @@ namespace LoggingClient
                 };
         }
 
-        public static void Log(string title, LogCategory category, string message)
+        public static void LogError(string title, string message)
+        {
+            Logger.Log(title, LogCategory.Error, message);
+        }
+
+        public static void LogWarning(string title, string message)
+        {
+            Logger.Log(title, LogCategory.Warning, message);
+        }
+
+        public static void LogInfo(string title, string message)
+        {
+            Logger.Log(title, LogCategory.Information, message);
+        }
+
+        private static void Log(string title, string category, string message)
         {
             List<LogItem> logList;
 
             if (!logDict.TryGetValue(Thread.CurrentThread.ManagedThreadId, out logList))
             {
-                logList = new List<LogItem>();
                 lock (logDict)
                 {
-                    logDict.Add(Thread.CurrentThread.ManagedThreadId, logList);
+                    if (!logDict.TryGetValue(Thread.CurrentThread.ManagedThreadId, out logList))
+                    {
+                        logList = new List<LogItem>();
+                        logDict.Add(Thread.CurrentThread.ManagedThreadId, logList);
+                    }
                 }
             }
 
             logList.Add(new LogItem
                         {
                             title = title,
-                            category = category.ToString(),
+                            category = category,
                             message = message,
                             appId = appId,
                             loggedDate = DateTime.UtcNow
@@ -77,9 +95,9 @@ namespace LoggingClient
             foreach (var key in keys)
             {
                 var logList = logDict[key];
+                logList.RemoveAll(l => l.category == LogCategory.Done);
                 if (logList.Count > 0)
                 {
-                    logDict[key] = new List<LogItem>();
                     totalList.AddRange(logList);
                 }
             }
@@ -95,8 +113,13 @@ namespace LoggingClient
             using (var client = GetWebApiClient())
             {
                 await client.PostAsJsonAsync("log", totalList);
-                totalList.Clear();
             }
+
+            foreach (var item in totalList)
+            {
+                item.category = LogCategory.Done;
+            }
+            totalList.Clear();
         }
 
         private class LogApp
